@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 First, run the development server:
+<!-- git remote add origin  https://USERNAME:GENERATED_TOKEN@github.com/username/reponame.git -->
 
 ```bash
 npm run dev
