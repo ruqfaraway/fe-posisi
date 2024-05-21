@@ -1,11 +1,12 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+const RedirectPages = () => {
+  return <></>;
+};
 
-
-export default function Home() {
-  return (
-    <div className="p-5 m-5 min-w-100">
-      <p>ini halaman baru</p>
-    </div>
-  );
-}
+export const getServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: "/login",
+      permanent: false,
+    },
+  };
+};
