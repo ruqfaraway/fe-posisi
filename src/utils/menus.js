@@ -1,0 +1,53 @@
+import { AiFillAccountBook, AiFillAmazonCircle, AiFillBell, AiOutlineBook, AiOutlineCar, AiOutlineDashboard, AiOutlineGroup, AiOutlineSchedule, AiOutlineSmallDash, AiOutlineUser } from "react-icons/ai";
+import { MdGroup, MdOutlineDashboard } from "react-icons/md";
+
+const menus = [
+  { name: "Dashboard", link: "/dashboard", icon: MdOutlineDashboard },
+  {
+    name: 'Absen Posko',
+    link: '/absent-management',
+    icon: AiOutlineSchedule
+  },
+  {
+    name: "Manajemen Relawan",
+    link: "/volunteer-management",
+    icon: AiOutlineUser,
+  },
+  {
+    name: "Manajemen Unit",
+    link: "/unit-management",
+    icon: MdGroup,
+  },
+  {
+    name: "Manajemen Pendidikan",
+    link: "/education-management",
+    icon: AiOutlineGroup,
+  },
+  {
+    name: "Manajemen Pekerjaan",
+    link: "/occupation-management",
+    icon: AiFillAccountBook,
+  },
+  {
+    name: 'Manajemen Bencana',
+    link: '/disaster-management',
+    icon: AiFillBell
+  },
+  {
+    name: 'Manajemen Kegiatan',
+    link: '/activity-management',
+    icon: AiOutlineBook
+  },
+  {
+    name: 'Manajemen Kendaraan',
+    link: '/vehicle-management',
+    icon: AiOutlineCar
+  },
+  {
+    name: 'Manajemen Operasional',
+    link: '/operational-management',
+    icon: AiOutlineDashboard
+  },
+];
+
+export default menus;

@@ -1,11 +1,11 @@
-const RedirectPages = () => {
+const RedirectEmpty = () => {
   return <></>;
 };
-
-export const getServerSideProps = async () => {
+export default RedirectEmpty;
+export const getServerSideProps = () => {
   return {
     redirect: {
-      destination: "/login",
+      destination: "/dashboard",
       permanent: false,
     },
   };
