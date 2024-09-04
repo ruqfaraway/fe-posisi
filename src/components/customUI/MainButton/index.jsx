@@ -8,15 +8,16 @@ const MainButton = ({
   onClick,
   disabled,
   loading,
-  htmlType,
+  htmlType = "submit",
+  className
 }) => {
   return (
     <Button
       variant={type === "primary" ? "" : type}
       onClick={onClick}
       disabled={disabled || loading}
-      htmlType={htmlType}
-      className="flex items-center justify-center gap-2"
+      htmltype={htmlType}
+      className={`${className} flex items-center justify-center gap-2`}
     >
       {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       {children}

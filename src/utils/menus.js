@@ -15,12 +15,12 @@ const menus = [
   },
   {
     name: "Manajemen Unit",
-    link: "/unit-management",
+    link: "/master-data/unit-volunteer",
     icon: MdGroup,
   },
   {
     name: "Manajemen Pendidikan",
-    link: "/education-management",
+    link: "/master-data/education",
     icon: AiOutlineGroup,
   },
   {

@@ -1,14 +1,15 @@
 import menus from "@/utils/menus";
+import { createClientComponent } from "@/utils/supabase/components";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { AiOutlineUser } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const LayoutComponent = ({ children }) => {
+  const supabase = createClientComponent();
   const breadCrumbs = [
     {
       name: "Home",
@@ -23,9 +24,18 @@ const LayoutComponent = ({ children }) => {
       link: "/volunteer-management/add",
     },
   ];
-  
+
   const router = useRouter();
   const [open, setOpen] = useState(true);
+
+  const signOut = async () => {
+    await supabase.auth.signOut().then((res) => {
+      if (res.error) {
+        console.log(res.error.message, "error");
+      }
+      router.push("/login");
+    });
+  };
 
   return (
     <section className={`${montserrat.className} flex gap-6`}>
@@ -78,13 +88,11 @@ const LayoutComponent = ({ children }) => {
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <h2 className="text-2xl">
-                  {
-                    menus.find((menu) => menu.link === router.pathname)?.name
-                  }
+                  {menus.find((menu) => menu.link === router.pathname)?.name}
                 </h2>
               </div>
               <div className="flex items-center gap-2">
-                <CgProfile size={35} />
+                <CgProfile size={35} onClick={() => signOut()} />
               </div>
             </div>
           </div>

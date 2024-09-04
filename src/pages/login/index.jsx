@@ -1,32 +1,15 @@
-import { useRouter } from "next/router";
-import React from "react";
+import LoginForm from "@/components/forms/LoginForm";
+import routeGuard from "@/utils/route-guard";
+import { createClientServer } from "@/utils/supabase/server-props";
 
 const LoginPages = () => {
-  const router = useRouter();
   return (
     <>
       <div className="flex justify-center items-center min-h-screen container mx-auto">
         <div className="rounded-xl shadow-lg w-2/6">
           <div className="p-3 flex flex-col">
-            <h1 className="text-4xl font-bold text-center">Login</h1>
-            <form className="flex flex-col gap-4 p-4">
-              <input
-                type="text"
-                placeholder="Username"
-                className="border-2 border-gray-300 p-2"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="border-2 border-gray-300 p-2"
-              />
-              <input
-                className="bg-blue-500 text-white p-1 rounded-md"
-                type="submit"
-                value="submit"
-              />
-            </form>
-            <button onClick={() => router.push("/dashboard")}>next</button>
+            <h1 className="text-xl font-semibold p-2">Hi There..</h1>
+            <LoginForm />
           </div>
         </div>
       </div>
@@ -35,3 +18,12 @@ const LoginPages = () => {
 };
 
 export default LoginPages;
+
+export const getServerSideProps = async (context) => {
+  const supabase = createClientServer(context);
+  const { data, error } = await supabase.auth.getUser();
+  const validator = error && data;
+  return routeGuard([!!validator], "/", {
+    props: {},
+  });
+};
