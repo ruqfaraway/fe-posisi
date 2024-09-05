@@ -10,9 +10,29 @@ import { Input } from "@/components/ui/input";
 import routeGuard from "@/utils/route-guard";
 
 const VolunteerManagementPages = ({ dataSource }) => {
-  const [disabled, setDisabled] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const supabase = createClientComponent();
   const router = useRouter();
+
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("tbl_volunteer")
+        .delete()
+        .eq("id", id);
+      if (error) {
+        throw error;
+      } else {
+        router.reload();
+      }
+    } catch (error) {
+      console.log(error, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const columns = [
     {
       title: "Name",
@@ -41,12 +61,19 @@ const VolunteerManagementPages = ({ dataSource }) => {
       render: (text, record) => {
         return (
           <div className="flex gap-2">
-            <MainButton disabled={disabled} loading={disabled}>
+            <MainButton
+              disabled={loading}
+              loading={loading}
+              onClick={() =>
+                router.push(`/volunteer-management/detail/${record.id}`)
+              }
+            >
               Detail
             </MainButton>
             <MainButton
-              onClick={() => setDisabled(!disabled)}
+              onClick={() => handleDelete(record.id)}
               type="destructive"
+              loading={loading}
             >
               Delete
             </MainButton>
@@ -102,7 +129,6 @@ export const getServerSideProps = async (context) => {
     return error;
   }
 
-  console.log(dataSource, "data source");
   return routeGuard([isLoggedin], "/", {
     props: {
       dataSource,

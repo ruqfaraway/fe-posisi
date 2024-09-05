@@ -37,7 +37,6 @@ export const getServerSideProps = async (context) => {
   } catch (error) {
     return error;
   }
-  console.log(unitVolunteerDetail, "unitVolunteerDetail");
   const isLoggedin = !!data && !error;
   return routeGuard([isLoggedin], "/", {
     props: {

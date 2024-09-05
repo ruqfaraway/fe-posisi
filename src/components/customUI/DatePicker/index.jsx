@@ -19,6 +19,11 @@ export function MainDatePicker({
   dateFormat = "DD-MM-YYYY",
   ...props
 }) {
+  const { defaultValues } = form.formState;
+  const { name } = field;
+
+  console.log(defaultValues[name], 'defaultValues[name]');
+  
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -1,9 +1,10 @@
 import ContentWrapper from "@/components/customUI/ContentWrapper";
-import AddVolunteerForm from "@/components/forms/volunteer/AddVolunteerForm";
+import UpdateVolunteerForm from "@/components/forms/volunteer/UpdateVolunteerForm";
 import routeGuard from "@/utils/route-guard";
 import { createClientServer } from "@/utils/supabase/server-props";
 
-const AddVolunteerManagementPages = ({
+const DetailVolunteerManagement = ({
+  detailVolunteer,
   unitList,
   kabupatenList,
   kecamatanList,
@@ -20,7 +21,8 @@ const AddVolunteerManagementPages = ({
         Silahkan isi form berikut untuk menambahkan data relawan
       </p>
       <div>
-        <AddVolunteerForm
+        <UpdateVolunteerForm
+          initialValues={detailVolunteer}
           unitList={unitList}
           kabupatenList={kabupatenList}
           kecamatanList={kecamatanList}
@@ -35,12 +37,13 @@ const AddVolunteerManagementPages = ({
   );
 };
 
-export default AddVolunteerManagementPages;
+export default DetailVolunteerManagement;
 
 export const getServerSideProps = async (context) => {
   const supabase = createClientServer(context);
   const { data, error } = await supabase.auth.getUser();
   const isLoggedin = !!data && !error;
+  let detailVolunteer = {};
   let unitList = [];
   let kabupatenList = [];
   let kecamatanList = [];
@@ -49,6 +52,21 @@ export const getServerSideProps = async (context) => {
   let occupationList = [];
   let religionList = [];
   let volunteerTypeList = [];
+
+  try {
+    const { data: resDetailVolunteer, error: error } = await supabase
+      .from("tbl_volunteer")
+      .select("*")
+      .eq("id", context.params.id)
+      .single();
+    if (error) {
+      console.log(error, "error");
+    } else {
+      detailVolunteer = resDetailVolunteer;
+    }
+  } catch (error) {
+    return error;
+  }
   try {
     const { data: resUnitData, error: error } = await supabase
       .from("tbl_unit")
@@ -154,8 +172,11 @@ export const getServerSideProps = async (context) => {
     return error;
   }
 
+  console.log(detailVolunteer, "detailVolunteer");
+
   return routeGuard([isLoggedin], "/", {
     props: {
+      detailVolunteer,
       unitList,
       kabupatenList,
       kecamatanList,

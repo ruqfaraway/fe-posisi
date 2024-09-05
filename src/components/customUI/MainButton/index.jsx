@@ -8,8 +8,8 @@ const MainButton = ({
   onClick,
   disabled,
   loading,
-  htmlType = "submit",
-  className
+  htmlType = null,
+  className,
 }) => {
   return (
     <Button

@@ -3,11 +3,11 @@ import { MdGroup, MdOutlineDashboard } from "react-icons/md";
 
 const menus = [
   { name: "Dashboard", link: "/dashboard", icon: MdOutlineDashboard },
-  {
-    name: 'Absen Posko',
-    link: '/absent-management',
-    icon: AiOutlineSchedule
-  },
+  // {
+  //   name: 'Absen Posko',
+  //   link: '/absent-management',
+  //   icon: AiOutlineSchedule
+  // },
   {
     name: "Manajemen Relawan",
     link: "/volunteer-management",
@@ -23,31 +23,31 @@ const menus = [
     link: "/master-data/education",
     icon: AiOutlineGroup,
   },
-  {
-    name: "Manajemen Pekerjaan",
-    link: "/occupation-management",
-    icon: AiFillAccountBook,
-  },
-  {
-    name: 'Manajemen Bencana',
-    link: '/disaster-management',
-    icon: AiFillBell
-  },
-  {
-    name: 'Manajemen Kegiatan',
-    link: '/activity-management',
-    icon: AiOutlineBook
-  },
-  {
-    name: 'Manajemen Kendaraan',
-    link: '/vehicle-management',
-    icon: AiOutlineCar
-  },
-  {
-    name: 'Manajemen Operasional',
-    link: '/operational-management',
-    icon: AiOutlineDashboard
-  },
+  // {
+  //   name: "Manajemen Pekerjaan",
+  //   link: "/occupation-management",
+  //   icon: AiFillAccountBook,
+  // },
+  // {
+  //   name: 'Manajemen Bencana',
+  //   link: '/disaster-management',
+  //   icon: AiFillBell
+  // },
+  // {
+  //   name: 'Manajemen Kegiatan',
+  //   link: '/activity-management',
+  //   icon: AiOutlineBook
+  // },
+  // {
+  //   name: 'Manajemen Kendaraan',
+  //   link: '/vehicle-management',
+  //   icon: AiOutlineCar
+  // },
+  // {
+  //   name: 'Manajemen Operasional',
+  //   link: '/operational-management',
+  //   icon: AiOutlineDashboard
+  // },
 ];
 
 export default menus;

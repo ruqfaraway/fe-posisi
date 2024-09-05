@@ -18,10 +18,7 @@ const UnitVolunteerPage = ({ dataSource }) => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from("tbl_unit")
-        .delete()
-        .eq("id", id);
+      const { error } = await supabase.from("tbl_unit").delete().eq("id", id);
       if (error) {
         setError(error.message);
         console.log(error, "error");
@@ -80,7 +77,9 @@ const UnitVolunteerPage = ({ dataSource }) => {
           </div>
         )}
         <div className="flex justify-between">
-          <MainButton onClick={() => router.push("/master-data/unit-volunteer/add")}>
+          <MainButton
+            onClick={() => router.push("/master-data/unit-volunteer/add")}
+          >
             Add Unit Volunteer
           </MainButton>
           <form className="flex gap-2">
@@ -114,8 +113,6 @@ export const getServerSideProps = async (context) => {
   } catch (error) {
     return error;
   }
-
-  console.log(dataSource, "dataSource");
 
   return routeGuard([isLoggedin], "/", {
     props: {

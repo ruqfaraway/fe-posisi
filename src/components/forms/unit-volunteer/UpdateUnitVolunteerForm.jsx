@@ -1,4 +1,6 @@
 "use client";
+import { ButtonIcon } from "@/components/customUI/ButtonIcon";
+import MainButton from "@/components/customUI/MainButton";
 import {
   Form,
   FormControl,
@@ -8,16 +10,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createClientComponent } from "@/utils/supabase/components";
 import { zodResolver } from "@hookform/resolvers/zod";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createClientComponent } from "@/utils/supabase/components";
-import { ButtonIcon } from "@/components/customUI/ButtonIcon";
-import MainButton from "@/components/customUI/MainButton";
 const formSchema = z.object({
   name: z.string().min(2).max(50),
+  date_founded: z.string().min(2).max(50),
 });
 const UpdateUnitVolunteerPage = ({ initialValues = {} }) => {
   const supabase = createClientComponent();
@@ -26,27 +30,31 @@ const UpdateUnitVolunteerPage = ({ initialValues = {} }) => {
   const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: initialValues
+    defaultValues: {
+      ...initialValues,
+      date_founded: dayjs(initialValues.date_founded).toDate(),
+    }
       ? initialValues
       : {
           name: "",
+          date_founded: "",
         },
   });
 
   // 2. Define a submit handler.
   const onSubmit = async (values) => {
-    const { name } = values;
+    const { name, date_founded } = values;
     setLoading(true);
     try {
       const { error } = await supabase
-        .from("tbl_education")
-        .update({ name: name })
+        .from("tbl_unit")
+        .update({ name: name, date_founded: date_founded })
         .eq("id", initialValues?.id);
       if (error) {
         throw error;
       } else {
         setLoading(false);
-        router.push("/master-data/education");
+        router.push("/master-data/unit-volunteer");
       }
     } catch (error) {
       return error;
@@ -76,11 +84,35 @@ const UpdateUnitVolunteerPage = ({ initialValues = {} }) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="date_founded"
+            render={({ field }) => {
+              return (
+                <FormItem className="flex flex-col w-[15rem]">
+                  <FormLabel>Date Founded</FormLabel>
+                  <DatePicker
+                    selected={field.value}
+                    onChange={(date) => {
+                      // Format the date into DD MM YYYY before storing it in the form state
+                      const formattedDate = date
+                        ? dayjs(date).format("YYYY-MM-DD")
+                        : "";
+                      field.onChange(formattedDate);
+                    }}
+                    dateFormat="yyyy-MM-dd"
+                    className="w-[15rem] p-2 border border-gray-300 rounded-md text-sm"
+                  />
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
           <div className="flex gap-2 justify-end">
             <MainButton
               type="secondary"
               className="w-24 m-2"
-              onClick={() => router.push("/master-data/education")}
+              onClick={() => router.push("/master-data/unit-volunteer")}
               loading={loading}
             >
               Cancel
