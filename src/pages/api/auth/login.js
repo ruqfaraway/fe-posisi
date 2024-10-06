@@ -1,12 +1,12 @@
 // import { pick } from 'lodash'
 import { withSessionRoute } from "@/utils/sessionWrapper";
-import { createClient } from "@/utils/supabase/components";
+import { createClientComponent } from "@/utils/supabase/components";
 
 export default withSessionRoute(async ({ req, res }) => {
   console.log(req, res, '<== req, res')
   console.log('kepanggil')
   const { email, password } = req?.body;
-  const supabase = createClient();
+  const supabase = createClientComponent();
   if (req.method === "POST") {
     try {
       const response = await supabase.auth.signInWithPassword({
