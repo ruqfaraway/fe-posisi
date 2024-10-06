@@ -1,11 +1,17 @@
-
 import { Button } from "@/components/ui/button";
 import { AiFillCloseCircle } from "react-icons/ai";
 
-export function ButtonIcon({ onClick = () => {} }) {
+export function ButtonIcon({
+  onClick = () => {},
+  icon = <AiFillCloseCircle className="h-4 w-4" />,
+  text,
+  ...props
+}) {
   return (
-    <Button variant="outline" size="icon" onClick={onClick} className="h-6 w-6">
-      <AiFillCloseCircle className="h-4 w-4" />
+    <Button variant="outline" size="icon" onClick={onClick} {...props}>
+      <span className="flex gap-2 justify-center items-center">
+        {icon} {text}
+      </span>
     </Button>
   );
 }

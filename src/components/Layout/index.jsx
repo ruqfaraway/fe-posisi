@@ -6,9 +6,12 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { HiMenuAlt3 } from "react-icons/hi";
+import MainButton from "../customUI/MainButton";
+import { useToast } from "@/hooks/use-toast";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const LayoutComponent = ({ children }) => {
+  const { toast } = useToast();
   const supabase = createClientComponent();
   const breadCrumbs = [
     {
@@ -51,7 +54,7 @@ const LayoutComponent = ({ children }) => {
             onClick={() => setOpen(!open)}
           />
         </div>
-        <div className="mt-4 flex flex-col gap-4 relative">
+        <div className="mt-4 flex flex-col gap-4 sticky top-2">
           {menus?.map((menu, i) => (
             <Link
               href={menu?.link}
@@ -92,7 +95,19 @@ const LayoutComponent = ({ children }) => {
                 </h2>
               </div>
               <div className="flex items-center gap-2">
-                <CgProfile size={35} onClick={() => signOut()} />
+                <MainButton
+                  type="destructive"
+                  onClick={() => {
+                    signOut();
+                    toast({
+                      title: "Logout Successful",
+                      description: "You have been logged out successfully",
+                    });
+                  }}
+                >
+                  {" "}
+                  Logout
+                </MainButton>
               </div>
             </div>
           </div>

@@ -8,12 +8,13 @@ import MainTable from "@/components/customUI/MainTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import routeGuard from "@/utils/route-guard";
+import { useToast } from "@/hooks/use-toast";
 
 const VolunteerManagementPages = ({ dataSource }) => {
   const [loading, setLoading] = useState(false);
   const supabase = createClientComponent();
   const router = useRouter();
-
+  const { toast } = useToast();
   const handleDelete = async (id) => {
     setLoading(true);
     try {
@@ -22,9 +23,18 @@ const VolunteerManagementPages = ({ dataSource }) => {
         .delete()
         .eq("id", id);
       if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          type: "error",
+        });
         throw error;
       } else {
-        router.reload();
+        toast({
+          title: "Success",
+          description: "Volunteer deleted successfully",
+          type: "success",
+        });
       }
     } catch (error) {
       console.log(error, "error");

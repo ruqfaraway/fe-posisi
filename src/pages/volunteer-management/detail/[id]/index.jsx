@@ -172,7 +172,6 @@ export const getServerSideProps = async (context) => {
     return error;
   }
 
-  console.log(detailVolunteer, "detailVolunteer");
 
   return routeGuard([isLoggedin], "/", {
     props: {
