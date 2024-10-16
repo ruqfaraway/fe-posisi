@@ -3,11 +3,6 @@ import { MdGroup, MdOutlineDashboard } from "react-icons/md";
 
 const menus = [
   { name: "Dashboard", link: "/dashboard", icon: MdOutlineDashboard },
-  // {
-  //   name: 'Absen Posko',
-  //   link: '/absent-management',
-  //   icon: AiOutlineSchedule
-  // },
   {
     name: "Manajemen Relawan",
     link: "/volunteer-management",
@@ -23,11 +18,11 @@ const menus = [
     link: "/master-data/education",
     icon: AiOutlineGroup,
   },
-  // {
-  //   name: "Manajemen Pekerjaan",
-  //   link: "/occupation-management",
-  //   icon: AiFillAccountBook,
-  // },
+  {
+    name: "Manajemen Pekerjaan",
+    link: "/master-data/occupation",
+    icon: AiFillAccountBook,
+  },
   // {
   //   name: 'Manajemen Bencana',
   //   link: '/disaster-management',
