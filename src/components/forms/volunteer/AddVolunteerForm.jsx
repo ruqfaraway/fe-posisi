@@ -14,19 +14,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import dayjs from "dayjs";
 import { Input } from "@/components/ui/input";
+import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createClientComponent } from "@/utils/supabase/components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
+import { MainDatePicker } from "@/components/customUI/DatePicker";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -150,6 +152,7 @@ const AddVolunteerForm = ({
       ...values,
       volunteer_status: values.volunteer_status ? "active" : "inactive",
     };
+    // console.log(toBeSubmitted, 'toBeSubmitted');
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -287,15 +290,14 @@ const AddVolunteerForm = ({
                 <FormItem className="flex flex-col w-[15rem]">
                   <FormLabel>Birthdate</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      selected={field.value}
+                    <MainDatePicker
+                      captionLayout="dropdown"
+                      mode="single"
+                      selectedValue={field.value}
                       onChange={(date) => {
                         const formattedDate = dayjs(date).format("YYYY-MM-DD");
                         field.onChange(formattedDate);
                       }}
-                      dateFormat="yyyy-MM-dd"
-                      wrapperClassName="border p-2 rounded-md w-full text-sm"
-                      className="border p-2 rounded-md w-full text-sm disabled:bg-gray-200"
                     />
                   </FormControl>
                   <FormMessage />
@@ -519,15 +521,14 @@ const AddVolunteerForm = ({
                 <FormItem className="flex flex-col w-[15rem]">
                   <FormLabel>Tanggal Bergabung</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      selected={field.value}
+                    <MainDatePicker
+                      captionLayout="dropdown"
+                      mode="single"
+                      selectedValue={field.value}
                       onChange={(date) => {
                         const formattedDate = dayjs(date).format("YYYY-MM-DD");
                         field.onChange(formattedDate);
                       }}
-                      dateFormat="yyyy-MM-dd"
-                      wrapperClassName="border p-2 rounded-md w-full text-sm"
-                      className="border p-2 rounded-md w-full text-sm disabled:bg-gray-200"
                     />
                   </FormControl>
                   <FormMessage />

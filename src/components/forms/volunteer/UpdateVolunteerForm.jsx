@@ -47,7 +47,7 @@ const formSchema = z.object({
   id_religion: z.number(),
   goldar: z.string(),
   join_date: z.string().min(2).max(50),
-  volunteer_status: z.string().min(2).max(50),
+  volunteer_status: z.boolean(),
   is_officer: z.boolean(),
 });
 const UpdateVolunteerForm = ({
@@ -161,39 +161,44 @@ const UpdateVolunteerForm = ({
       id_volunteer_type: Number(initialValues.id_volunteer_type),
       id_religion: Number(initialValues.id_religion),
       is_officer: Boolean(initialValues.is_officer),
+      volunteer_status: initialValues.volunteer_status === "active" ? true : false,
     },
   });
+
+  // console.log(initialValues, "initialValues");
   const onSubmit = async (values) => {
-    console.log(values, 'values');
-    // setLoading(true);
-    // try {
-    //   const { data, error } = await supabase
-    //     .from("tbl_volunteer")
-    //     .update([{ ...values }])
-    //     .eq("id", initialValues?.id)
-    //     .select();
-    //   if (error) {
-    //     setError(error.message);
-    //     throw error;
-    //   } else {
-    //     router.push("/volunteer-management");
-    //   }
-    // } catch (error) {
-    //   return error;
-    // } finally {
-    //   setLoading(false);
-    // }
+    const toBeSubmitted = {
+      ...values,
+      volunteer_status: values.volunteer_status ? "active" : "inactive",
+    };
+    console.log(toBeSubmitted, "toBeSubmitted");
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("tbl_volunteer")
+        .update([toBeSubmitted])
+        .eq("id", initialValues?.id)
+        .select();
+      if (error) {
+        setError(error.message);
+        throw error;
+      } else {
+        router.push("/volunteer-management");
+      }
+    } catch (error) {
+      return error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-    {
-      loading && (
+      {loading && (
         <div className="bg-blue-200 p-2 rounded-md flex justify-between items-center">
           <p className="text-blue-500">Loading...</p>
         </div>
-      )
-    }
+      )}
       {error && (
         <div className="bg-red-200 p-2 rounded-md flex justify-between items-center">
           <p className="text-red-500">{error}</p>
@@ -305,14 +310,14 @@ const UpdateVolunteerForm = ({
                 <FormItem className="flex flex-col w-[15rem]">
                   <FormLabel>Birthdate</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      selected={field.value}
+                    <MainDatePicker
+                      captionLayout="dropdown"
+                      mode="single"
+                      selectedValue={field.value}
                       onChange={(date) => {
                         const formattedDate = dayjs(date).format("YYYY-MM-DD");
                         field.onChange(formattedDate);
                       }}
-                      dateFormat="yyyy-MM-dd"
-                      className="border p-2 rounded-md w-full text-sm"
                     />
                   </FormControl>
                   <FormMessage />
@@ -443,7 +448,12 @@ const UpdateVolunteerForm = ({
                 <FormItem className="w-1/2">
                   <FormLabel>Alamat</FormLabel>
                   <FormControl>
-                    <Textarea type="textarea" placeholder="Alamat" {...field} className='resize-none' />
+                    <Textarea
+                      type="textarea"
+                      placeholder="Alamat"
+                      {...field}
+                      className="resize-none"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -537,14 +547,14 @@ const UpdateVolunteerForm = ({
                 <FormItem className="flex flex-col w-[15rem]">
                   <FormLabel>Tanggal Bergabung</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      selected={field.value}
+                    <MainDatePicker
+                      captionLayout="dropdown"
+                      mode="single"
+                      selectedValue={field.value}
                       onChange={(date) => {
                         const formattedDate = dayjs(date).format("YYYY-MM-DD");
                         field.onChange(formattedDate);
                       }}
-                      dateFormat="yyyy-MM-dd"
-                      className="border p-2 rounded-md w-full text-sm"
                     />
                   </FormControl>
                   <FormMessage />
@@ -570,7 +580,9 @@ const UpdateVolunteerForm = ({
                   <FormControl>
                     <Switch
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(value) => {
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                 </FormItem>
