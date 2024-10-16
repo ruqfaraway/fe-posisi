@@ -13,20 +13,6 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 const LayoutComponent = ({ children }) => {
   const { toast } = useToast();
   const supabase = createClientComponent();
-  const breadCrumbs = [
-    {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Volunteer Management",
-      link: "/volunteer-management",
-    },
-    {
-      name: "Add",
-      link: "/volunteer-management/add",
-    },
-  ];
 
   const router = useRouter();
   const [open, setOpen] = useState(true);
